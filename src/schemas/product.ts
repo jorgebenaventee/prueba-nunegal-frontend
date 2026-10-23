@@ -19,9 +19,15 @@ export const productListSchema = z.array(productBaseSchema)
 
 export const productDetailSchema = productBaseSchema.and(
   z.object({
-    cpu: z.string(),
+    cpu: z
+      .array(z.string())
+      .transform(value => value.join(', '))
+      .or(z.string()),
     ram: z.string(),
-    os: z.string(),
+    os: z
+      .array(z.string())
+      .or(z.string())
+      .transform(value => (Array.isArray(value) ? value[0] : value)),
     displaySize: z.string(),
     battery: z.string(),
     primaryCamera: z
