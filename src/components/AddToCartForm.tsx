@@ -17,10 +17,12 @@ import { useCart } from '@/store/cart.ts'
 export function AddToCartForm({
   id,
   options,
+  available,
   ...props
 }: ComponentProps<'form'> & {
   id: ProductDetail['id']
   options: ProductDetail['options']
+  available: boolean
 }) {
   const [colorCode, setColorCode] = useState(options.colors[0]?.code)
   const [storageCode, setStorageCode] = useState(options.storages[0]?.code)
@@ -91,7 +93,7 @@ export function AddToCartForm({
           </SelectGroup>
         </SelectContent>
       </Select>
-      <Button type="submit" disabled={!valid || isPending}>
+      <Button type="submit" disabled={!available || !valid || isPending}>
         {isSuccess ? (
           <span className="text-green-700">Añadido correctamente</span>
         ) : isError ? (

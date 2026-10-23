@@ -43,6 +43,7 @@ function RouteComponent() {
         <AddToCartForm
           id={product.id}
           options={product.options}
+          available={product.price != null}
         ></AddToCartForm>
       </div>
     </div>
