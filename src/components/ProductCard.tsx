@@ -5,14 +5,7 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card.tsx'
-
-const intl = new Intl.NumberFormat('es-ES', {
-  style: 'currency',
-  currency: 'EUR'
-})
-function formatPrice(price: number) {
-  return intl.format(price)
-}
+import { formatPrice } from '@/lib/utils.ts'
 
 export function ProductCard({
   product,
@@ -25,7 +18,8 @@ export function ProductCard({
       <img
         src={product.imgUrl}
         alt={`Imagen del producto ${product.fullName}`}
-        className="max-h-full max-w-32 mx-auto block object-cover aspect-[127/169]"
+        className="h-full w-32 mx-auto block object-cover aspect-127/169"
+        style={{ viewTransitionName: `product-image-${product.id}` }}
       />
       <CardHeader>
         <CardTitle className="line-clamp-2">{product.fullName}</CardTitle>

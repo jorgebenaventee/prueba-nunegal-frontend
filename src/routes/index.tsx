@@ -16,8 +16,12 @@ function RouteComponent() {
   // const filterTerm = filterQuery.toLowerCase()
   const filterTerm = useDebouncedValue(filterQuery.toLowerCase(), 350)
 
-  if (isPending) return <p>Cargando productos…</p>
-  if (error) return <p>Error: {error.message}</p>
+  if (isPending) {
+    return <p>Cargando productos…</p>
+  }
+  if (error) {
+    return <p>Error: {error.message}</p>
+  }
 
   const filteredProducts = products.filter(product =>
     product.fullName.toLowerCase().includes(filterTerm)

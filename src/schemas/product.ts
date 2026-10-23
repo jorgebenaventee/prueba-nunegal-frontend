@@ -1,10 +1,10 @@
 import { z } from 'zod'
 
-export const productSchema = z
+const productBaseSchema = z
   .object({
-    id: z.string().min(1),
-    brand: z.string().min(1),
-    model: z.string().min(1),
+    id: z.string(),
+    brand: z.string(),
+    model: z.string(),
     price: z
       .string()
       .transform(value => (value === '' ? null : Number(value)))
@@ -15,7 +15,41 @@ export const productSchema = z
     ...product,
     fullName: `${product.brand} ${product.model}`
   }))
+export const productListSchema = z.array(productBaseSchema)
 
-export type Product = z.infer<typeof productSchema>
+export const productDetailSchema = productBaseSchema.and(
+  z.object({
+    cpu: z.string(),
+    ram: z.string(),
+    os: z.string(),
+    displaySize: z.string(),
+    battery: z.string(),
+    primaryCamera: z
+      .string()
+      .or(z.array(z.string()))
+      .transform(value => (Array.isArray(value) ? value : [value])),
+    secondaryCmera: z
+      .string()
+      .or(z.array(z.string()))
+      .transform(value => (Array.isArray(value) ? value : [value])),
+    dimentions: z.string(),
+    weight: z.string(),
+    options: z.object({
+      colors: z.array(
+        z.object({
+          code: z.number(),
+          name: z.string()
+        })
+      ),
+      storages: z.array(
+        z.object({
+          code: z.number(),
+          name: z.string()
+        })
+      )
+    })
+  })
+)
 
-export const productListSchema = z.array(productSchema)
+export type Product = z.infer<typeof productBaseSchema>
+export type ProductDetail = z.infer<typeof productDetailSchema>
